@@ -64,6 +64,7 @@
 </header>
 
 <div id="body" class="container" style="min-height: 20vh;">
+    <img src="${pageContext.request.contextPath}/Images/Header_billede.png" class="img-fluid mb-4"/>
     <jsp:doBody/>
 </div>
 
