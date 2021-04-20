@@ -175,6 +175,31 @@ public class BmiMapper {
         }
     }
 
+    public int deleteSport(int sportId) throws UserException{
+        try (Connection connection = database.connect())
+        {
+            String sql = "DELETE FROM sport " +
+                    "WHERE sport_id = ? AND " +
+                    "sport_id NOT IN (SELECT sport_id FROM bmi_entry)";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql))
+            {
+                ps.setInt(1, sportId);
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected;
+
+            }
+            catch (SQLException ex)
+            {
+                throw new UserException(ex.getMessage());
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new UserException(ex.getMessage());
+        }
+    }
+
     public List<Sport> getAllSports() throws UserException{
 
         List<Sport> sportList = new ArrayList<>();
