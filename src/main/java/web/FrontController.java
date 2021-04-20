@@ -1,6 +1,7 @@
 package web;
 
 import business.exceptions.UserException;
+import business.persistence.BmiMapper;
 import business.persistence.Database;
 import web.commands.*;
 
@@ -39,6 +40,13 @@ public class FrontController extends HttpServlet
         }
 
         // Initialize whatever global datastructures needed here:
+
+        BmiMapper bmiMapper = new BmiMapper(database);
+        try {
+            getServletContext().setAttribute("sportList", bmiMapper.getAllSports());
+        } catch (UserException ex) {
+            Logger.getLogger("web").log(Level.SEVERE, ex.getMessage(), ex);
+        }
 
     }
 
