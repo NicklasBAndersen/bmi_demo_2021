@@ -4,25 +4,22 @@
 
 <t:genericpage>
     <jsp:attribute name="header">
-         List of Sports
+         Edit sport
     </jsp:attribute>
     <jsp:attribute name="footer">
     </jsp:attribute>
     <jsp:body>
         <h1>Hello ${sessionScope.email} </h1>
-        This is a list of all sports:
+        Please edit and update text below
 
         <form action="${pageContext.request.contextPath}/fc/managesports" method="post">
-        <table>
-            <thead><th>Id</th><th>Name</th><th></th><th></th></thead>
-            <c:forEach var="sportItem" items="${applicationScope.sportList}">
+        <input type="hidden" name="sports_id" value="${requestScope.sportItem.sport_id}"/>
+            <table>
+            <thead><th>Name</th><th></th></thead>
                 <tr>
-                    <td>${sportItem.sport_id}</td>
-                    <td>${sportItem.name}</td>
-                    <td><button type="submit" name="delete" value="${sportItem.sport_id}">Fjern</button></td>
-                    <td><button type="submit" name="edit" value="${sportItem.sport_id}">Rediger</button></td>
+                    <td><input type="text" name="name" value="${requestScope.sportItem.name}"/></td>
+                    <td><button type="submit" name="update">Rediger</button></td>
                 </tr>
-            </c:forEach>
         </table>
 
             <c:if test="${not empty requestScope.error}">

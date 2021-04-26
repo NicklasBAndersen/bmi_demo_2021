@@ -232,4 +232,57 @@ public class BmiMapper {
         }
     }
 
+    public Sport getSportById(int sportId) throws UserException{
+
+        try (Connection connection = database.connect())
+        {
+            String sql = "SELECT * FROM sport WHERE sport_id = ?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql))
+            {
+                ps.setInt(1, sportId);
+                ResultSet rs = ps.executeQuery();
+                if(rs.next())
+                {
+                    int newId = rs.getInt("sport_id");
+                    String name = rs.getString("name");
+                    return new Sport(newId, name);
+                }
+                throw new UserException("Sportsgren findes ikke for sport:id = " + sportId);
+            }
+            catch (SQLException ex)
+            {
+                throw new UserException(ex.getMessage());
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new UserException("Connection to database could not be established");
+        }
+    }
+
+    public int updateSport(int sportId, String name) throws UserException{
+
+        try (Connection connection = database.connect())
+        {
+            String sql = "UPDATE sport SET name = ? WHERE sport_id = ?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql))
+            {
+                ps.setString(1, name);
+                ps.setInt(2, sportId);
+                int rowsInserted = ps.executeUpdate();
+                return rowsInserted;
+            }
+            catch (SQLException ex)
+            {
+                throw new UserException(ex.getMessage());
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new UserException("Connection to database could not be established");
+        }
+    }
+
 }
